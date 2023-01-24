@@ -1,9 +1,13 @@
 # SQL-Portfolio-Project
 Movie Rental database
 Here's a sample template for a database documentation for the Movie_rental project:
+
 Database Design
+
 •	The Movie_rental database has three main tables: movies, customers, and rentals.
+
 •	The movies table stores information on the movies available for rent, including the movie title, genre, and release date.
+
 •	The customers table stores information on the customers, including their name, address, and age.
 •	The rentals table stores information on the rentals, including the customer ID, movie ID, rental date, and return date.
 •	The movies and customers tables have a primary key movie_id and customer_id, respectively.
