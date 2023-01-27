@@ -33,7 +33,7 @@ CREATE TABLE rentals (
     FOREIGN KEY (movie_id) REFERENCES movies(movie_id)
 );
 
-
+-- Add data to tables
 INSERT INTO customers (customer_id, first_name, last_name, email, age, address)
 VALUES (1, 'John', 'Doe', 'johndoe@example.com', 25, '123 Main St'),
        (2, 'Jane', 'Smith', 'janesmith@example.com', 32, '456 Park Ave'),
@@ -72,7 +72,7 @@ VALUES (4, 'Mike', 'Williams', 'mikewilliams@example.com', 35, '321 Oak St'),
        (20, 'Amanda', 'White', 'amandawhite@example.com', 32, '246 Cedar St');
 
 
--- Adding 20 more movies
+-- Adding more data to Tables
 INSERT INTO movies (movie_id, title, release_year, genre)
 VALUES (4, 'Pulp Fiction', 1994, 'Crime'),
        (5, 'The Lord of the Rings: The Return of the King', 2003, 'Fantasy'),
@@ -90,7 +90,7 @@ VALUES (4, 'Pulp Fiction', 1994, 'Crime'),
 
 INSERT INTO movies (movie_id, title, release_year, genre)
 VALUES (17, 'The Usual Suspects', 1995, 'Crime'),
-       (18, 'Léon: The Professional', 1994, 'Crime'),
+       (18, 'LÃ©on: The Professional', 1994, 'Crime'),
        (19, 'Saving Private Ryan', 1998, 'War'),
        (20, 'American Beauty', 1999, 'Drama'),
        (21, 'Interstellar', 2014, 'Sci-Fi'),
@@ -134,21 +134,21 @@ VALUES (19, 16, 19, '2022-07-01', '2022-07-03'),
        (27, 4, 27, '2022-09-10', '2022-09-15'),
        (28, 5, 28, '2022-10-01', '2022-10-03');
 
---To get a list of all movies in the movies table, you can use the following query
+--To get a list of all movies in the movies table
 SELECT * FROM movies;
 
---To get a list of all customers in the customers table, you can use the following query
+--To get a list of all customers in the customers table
 SELECT * FROM customers;
 
---To get a list of all rentals in the rentals table, you can use the following query
+--To get a list of all rentals in the rentals table
 SELECT * FROM rentals;
 
---To get a count of the number of movies in each genre, you can use the following query
+--To get a count of the number of movies in each genre
 SELECT genre, COUNT(*) as 'Number of Movies'
 FROM movies
 GROUP BY genre;
 
---To get a list of the most popular movies among different age groups, you can use the following query
+--To get a list of the most popular movies among different age groups
 
 SELECT m.title, COUNT(r.movie_id) as 'Number of Rentals', c.age
 FROM movies m
@@ -158,7 +158,7 @@ GROUP BY m.title, c.age
 ORDER BY COUNT(r.movie_id) DESC;
 
 
---To get a list of customers who have rented a movie multiple times, you can use the following query
+--To get a list of customers who have rented a movie multiple times
 
 SELECT c.first_name, c.last_name, COUNT(r.customer_id) as 'Number of Rentals'
 FROM customers c
@@ -167,18 +167,18 @@ GROUP BY c.first_name, c.last_name
 HAVING COUNT(r.customer_id) > 1;
 
 
---To get a list of all movies released after a certain year, you can use the WHERE clause in the following query
+--To get a list of all movies released after a certain year
 SELECT * FROM movies
 WHERE release_year > 2000
 ORDER BY release_year;
 
---To get a list of all customers whose last name starts with a certain letter, you can use the LIKE clause in the following query
+--To get a list of all customers whose last name starts with a certain letter
 SELECT * FROM customers
 WHERE last_name LIKE 'S%'
 ORDER BY last_name;
 
 
---To get the top 10 most popular movies by the number of rentals, you can use the ORDER BY and LIMIT clauses in the following query
+--To get the top 10 most popular movies by the number of rentals
 SELECT Top 10 m.title, COUNT(r.movie_id) as 'Number of Rentals'
 FROM movies m
 JOIN rentals r ON m.movie_id = r.movie_id
@@ -202,14 +202,14 @@ ORDER BY COUNT(r.movie_id) DESC;
 
 
 
---To get a list of all rentals that occurred between two specific dates, you can use the WHERE clause in the following query
+--To get a list of all rentals that occurred between two specific dates
 SELECT * FROM rentals
 WHERE rental_date BETWEEN '2022-01-01' AND '2022-03-31'
 ORDER BY rental_date;
 
---Complex queries
 
---To get a list of all customers who have rented a movie in a certain genre, you can use the following query
+
+--To get a list of all customers who have rented a movie in a certain genre
 
 SELECT c.first_name, c.last_name, m.genre
 FROM customers c
@@ -238,25 +238,14 @@ GROUP BY c.first_name, c.last_name
 ORDER BY genre;
 
 
---To get a list of movies that have not been rented, you can use the following query
+--To get a list of movies that have not been rented
 SELECT title
 FROM movies
 WHERE movie_id NOT IN (SELECT movie_id FROM rentals)
 
---To get the total number of rentals, the number of unique customers who rented, and the number of unique movies rented for each month of the year, you can use the following query
-SELECT DATEPART(month, rental_date) AS month, COUNT(DISTINCT rental_id) AS rentals, COUNT(DISTINCT customer_id) AS customers, COUNT(DISTINCT movie_id) AS movies
-FROM rentals
-GROUP BY DATEPART(month, rental_date)
-ORDER BY DATEPART(month, rental_date);
-
-SELECT DATEADD(month, DATEDIFF(month, 0, rental_date), 0)  AS month, COUNT(DISTINCT rental_id) AS rentals, COUNT(DISTINCT customer_id) AS customers, COUNT(DISTINCT movie_id) AS movies
-FROM rentals
-GROUP BY DATEADD(month, DATEDIFF(month, 0, rental_date), 0) 
-ORDER BY DATEADD(month, DATEDIFF(month, 0, rental_date), 0) ;
-
 	
 
---To get the list of movies rented by a customer, you can use the following query
+--To get the list of movies rented by a customer
 
 SELECT  c.first_name, c.last_name, m.title
 FROM customers c
@@ -265,7 +254,7 @@ JOIN movies m ON r.movie_id = m.movie_id
 WHERE c.first_name = 'John' AND c.last_name = 'Doe'
 ORDER BY m.title;
 
---To get the list of movies rented by a customer and their rental count, you can use the following query
+--To get the list of movies rented by a customer and their rental count
 
 SELECT m.title, COUNT(r.movie_id) as 'Number of Rentals'
 FROM movies m
@@ -275,33 +264,8 @@ WHERE c.first_name = 'John' AND c.last_name = 'Doe'
 GROUP BY m.title
 ORDER BY COUNT(r.movie_id) DESC
 
---Advanced functions
 
---To get a list of customers who have rented at least one movie in each genre, you can use the following query
-
-WITH genre_counts AS (
-  SELECT customer_id, genre, COUNT(DISTINCT genre) AS genre_count
-  FROM movies m
-  JOIN rentals r ON m.movie_id = r.movie_id
-  GROUP BY customer_id, genre
-)
-SELECT c.first_name, c.last_name
-FROM customers c
-WHERE (SELECT COUNT(DISTINCT genre) FROM genre_counts WHERE customer_id = c.customer_id) = (SELECT COUNT(DISTINCT genre) FROM movies);
-
-
---To get the average rental duration for each genre of movie, you can use the following query
-
-WITH duration AS (
-  SELECT genre, DATEDIFF(day, rental_date, return_date) AS rental_duration
-  FROM movies m
-  JOIN rentals r ON m.movie_id = r.movie_id
-)
-SELECT genre, AVG(rental_duration) AS avg_duration
-FROM duration
-GROUP BY genre
-ORDER BY avg_duration DESC;
-
+--To get the average rental duration for each genre of movie
 
 SELECT m.genre, AVG(DATEDIFF(day, r.rental_date, r.return_date)) as 'Average Rental Duration (in days)'
 FROM movies m
@@ -310,7 +274,7 @@ GROUP BY m.genre
 ORDER BY AVG(DATEDIFF(day, r.rental_date, r.return_date)) DESC;
 
 
---To get the top 5 customers who have rented the most movies overall, you can use the following query
+--To get the top 5 customers who have rented the most movies overall
 
 WITH customer_rentals AS (
   SELECT Top 5 customer_id, COUNT(*) AS rental_count
@@ -322,7 +286,7 @@ FROM customer_rentals cr
 JOIN customers c ON cr.customer_id = c.customer_id
 ORDER BY rental_count DESC;
 
---To get the percentage of movies rented in each genre, you can use the following query
+--To get the percentage of movies rented in each genre
 
 WITH genre_counts AS (
   SELECT genre, COUNT(*) AS genre_count
@@ -334,31 +298,6 @@ SELECT genre, genre_count, genre_count * 100.0 / (SELECT SUM(genre_count) FROM g
 FROM genre_counts
 ORDER BY percentage DESC;
 
-
---To get the number of movies rented by customers of each age group, you can use the following query
-
-WITH age_groups AS (
-  SELECT CASE
-    WHEN age < 20 THEN 'Under 20'
-    WHEN age >= 20 AND age < 30 THEN '20s'
-    WHEN age >= 30 AND age < 40 THEN '30s'
-    WHEN age >= 40 AND age < 50 THEN '40s'
-    WHEN age >= 50 THEN '50+'
-    END AS age_group
-  FROM customers
-)
-SELECT age_groups.age_group, COUNT(DISTINCT rentals.movie_id) AS 'Number of Movies Rented'
-FROM age_groups
-JOIN customers ON age_groups.age_group = CASE
-    WHEN customers.age < 20 THEN 'Under 20'
-    WHEN customers.age >= 20 AND customers.age < 30 THEN '20s'
-    WHEN customers.age >= 30 AND customers.age < 40 THEN '30s'
-    WHEN customers.age >= 40 AND customers.age < 50 THEN '40s'
-    WHEN customers.age >= 50 THEN '50+'
-    END
-JOIN rentals ON customers.customer_id = rentals.customer_id
-GROUP BY age_groups.age_group
-ORDER BY COUNT(DISTINCT rentals.movie_id) DESC;
 
 --CTE & Use of ROW_NUMBER() function along with a subquery
 WITH cte as (
